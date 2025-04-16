@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Task/pgk/Shape"
 	"Task/pgk/delivery"
 	"fmt"
 )
@@ -17,4 +18,18 @@ func main() {
 	delivery.ProcessOrder(courier)
 	delivery.ProcessOrder(post)
 	delivery.ProcessOrder(pickup)
+	fmt.Println("------------------------------------------Задание 1 завершено-----------------------------------")
+
+	box := Shape.Rectangle{
+		Width:  32.0,
+		Height: 12.2,
+	}
+	circle := Shape.Circle{
+		Radius: 12,
+	}
+
+	Shape.DescribeShape(box)
+	Shape.DescribeShape(circle)
+
+	fmt.Println("------------------------------------------Задание 2 завершено-----------------------------------")
 }
