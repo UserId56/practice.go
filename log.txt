@@ -1,0 +1,6 @@
+[Info] Starting process
+[Warning] Resource low
+[Error] Failed to complete
+[Info] Starting process
+[Warning] Resource low
+[Error] Failed to complete

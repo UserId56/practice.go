@@ -52,18 +52,13 @@ func (logger *ConsoleLogger) Log(level string, message string) error {
 }
 
 type FileLogger struct {
-	path string
+	Path string
 }
 
 func (fl *FileLogger) Log(level string, message string) error {
-	file, err := os.Open(fl.path)
-	if err != nil && errors.Is(err, os.ErrNotExist) {
-		file, err = os.Create(fl.path)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			return err
-		}
+	file, err := os.OpenFile(fl.Path, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		return err
 	}
 	defer file.Close()
 	lineString := fmt.Sprintf("[%s] %s\n", level, message)
@@ -75,11 +70,11 @@ func (fl *FileLogger) Log(level string, message string) error {
 }
 
 func (fl *FileLogger) GetLogs() string {
-	file, err := os.Open(fl.path)
+	file, err := os.Open(fl.Path)
 	defer file.Close()
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			fmt.Printf("[Error] Файл %s не найден", fl.path)
+			fmt.Printf("[Error] Файл %s не найден", fl.Path)
 		}
 		fmt.Printf("[Error] Не удалось открыть файл: %s", err)
 	}
@@ -98,4 +93,19 @@ func (fl *FileLogger) GetLogs() string {
 		result += str
 	}
 	return result
+}
+
+func TestLogger(l Logger) {
+	err := l.Log("Info", "Starting process")
+	if err != nil {
+		fmt.Printf("[Error.] %s\n", err)
+	}
+	err = l.Log("Warning", "Resource low")
+	if err != nil {
+		fmt.Printf("[Error.] %s\n", err)
+	}
+	err = l.Log("Error", "Failed to complete")
+	if err != nil {
+		fmt.Printf("[Error.] %s\n", err)
+	}
 }

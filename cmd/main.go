@@ -3,6 +3,7 @@ package main
 import (
 	"Task/pgk/Shape"
 	"Task/pgk/delivery"
+	"Task/pgk/logger"
 	"fmt"
 )
 
@@ -32,4 +33,13 @@ func main() {
 	Shape.DescribeShape(circle)
 
 	fmt.Println("------------------------------------------Задание 2 завершено-----------------------------------")
+
+	consoleLog := logger.ConsoleLogger{}
+	fileLog := logger.FileLogger{
+		Path: "log.txt",
+	}
+	logger.TestLogger(&consoleLog)
+	logger.TestLogger(&fileLog)
+	fmt.Println(fileLog.GetLogs())
+	fmt.Println("------------------------------------------Задание 3 завершено-----------------------------------")
 }
